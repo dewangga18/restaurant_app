@@ -68,7 +68,7 @@ class DetailPage extends StatelessWidget {
               ] else if (provider.state == RestaurantState.error) ...[
                 MessageWidget(
                   type: MessageType.noInternet,
-                  spacer: 20.verticalSpace,
+                  spacer: 50.verticalSpace,
                   onRefresh: provider.getDetailData,
                 ),
               ] else ...[

@@ -33,6 +33,7 @@ class HomePage extends StatelessWidget {
     final dataProvider = context.watch<ListDataProvider>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -51,6 +52,7 @@ class HomePage extends StatelessWidget {
                     onChanged: searchProvider.onChanged,
                     controller: searchProvider.txtController,
                     focusNode: searchProvider.focusNode,
+                    style: const TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.zero,
