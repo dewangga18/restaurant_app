@@ -62,7 +62,7 @@ class FavoritePage extends StatelessWidget {
             ),
           ),
           if (data.isEmpty)
-            MessageWidget(
+            const MessageWidget(
               type: MessageType.dataEmpty,
             )
           else

@@ -12,8 +12,10 @@ enum ResultListState {
 class ListDataProvider extends ChangeNotifier {
   final ApiService apiService;
 
-  ListDataProvider({required this.apiService}) {
-    getRestaurants();
+  ListDataProvider({required this.apiService, bool isMock = false}) {
+    if (!isMock) {
+      getRestaurants();
+    }
   }
 
   ResultListState state = ResultListState.empty;
