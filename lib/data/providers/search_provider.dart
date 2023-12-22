@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/models/restaurant_response.dart';
+import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
 
 enum SearchState {
   loading,
@@ -76,10 +76,11 @@ class SearchProvider extends ChangeNotifier {
 
   Future<void> doSearchData(String query) async {
     final response = await apiService.searchData(query);
-    if (response.restaurants == null) {
-      state = SearchState.empty;
-    } else if (response.error == true) {
+    if (response.error == true) {
       state = SearchState.error;
+    } else if (response.restaurants == null ||
+        (response.restaurants?.isEmpty ?? true)) {
+      state = SearchState.empty;
     } else {
       state = SearchState.success;
       if (initData.isEmpty) {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/providers/favorite_provider.dart';
 import 'package:restaurant_app/data/providers/list_provider.dart';
 import 'package:restaurant_app/data/providers/search_provider.dart';
 import 'package:restaurant_app/presentations/components/item_list.dart';
+import 'package:restaurant_app/presentations/screens/favorite_page.dart';
 import 'package:restaurant_app/presentations/widgets/loading_item.dart';
 import 'package:restaurant_app/presentations/widgets/message_widget.dart';
 import 'package:restaurant_app/utils/extensions/set_space.dart';
@@ -22,13 +24,15 @@ class HomePage extends StatelessWidget {
         ),
         ChangeNotifierProvider<SearchProvider>(
           create: (_) => SearchProvider(apiService: ApiService()),
-        )
+        ),
+        
       ],
       builder: (ctx, _) => _screen(ctx),
     );
   }
 
   Scaffold _screen(BuildContext context) {
+    final favProvider = context.watch<FavoriteProvider>();
     final searchProvider = context.watch<SearchProvider>();
     final dataProvider = context.watch<ListDataProvider>();
 
@@ -52,20 +56,14 @@ class HomePage extends StatelessWidget {
                     onChanged: searchProvider.onChanged,
                     controller: searchProvider.txtController,
                     focusNode: searchProvider.focusNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                     cursorColor: Colors.white,
                     decoration: const InputDecoration(
+                      hintStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      hintText: 'Cari restoran enak',
                       contentPadding: EdgeInsets.zero,
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
                     ),
                   ),
                 ),
@@ -84,6 +82,13 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   onPressed: searchProvider.displaySearch,
                   icon: const Icon(Icons.search),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    FavoritePage.route,
+                  ),
+                  icon: const Icon(Icons.favorite_outlined),
                 ),
               ],
             ],
@@ -108,10 +113,14 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (_, i) {
                     final data = searchProvider.searchData[i];
                     final index = (i % 9).toInt();
+                    bool isSavedItem = favProvider.isSavedItem(data.id);
 
                     return ItemList(
                       restaurant: data,
                       i: index,
+                      isSaved: isSavedItem,
+                      removeFunc: () => favProvider.removeData(data),
+                      addFunc: () => favProvider.addData(data),
                     );
                   },
                 ),
@@ -139,10 +148,14 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (_, i) {
                     final data = dataProvider.resultData[i];
                     final index = (i % 9).toInt();
+                    bool isSavedItem = favProvider.isSavedItem(data.id);
 
                     return ItemList(
                       restaurant: data,
                       i: index,
+                      isSaved: isSavedItem,
+                      removeFunc: () => favProvider.removeData(data),
+                      addFunc: () => favProvider.addData(data),
                     );
                   },
                 ),

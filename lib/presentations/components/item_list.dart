@@ -3,17 +3,23 @@ import 'package:restaurant_app/presentations/screens/detail_page.dart';
 import 'package:restaurant_app/utils/extensions/get_image.dart';
 import 'package:restaurant_app/utils/extensions/set_space.dart';
 import 'package:restaurant_app/utils/functions/color_profile.dart';
-import 'package:restaurant_app/data/models/restaurant_response.dart';
+import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
 
 class ItemList extends StatelessWidget {
   const ItemList({
     super.key,
     required this.restaurant,
     required this.i,
+    required this.isSaved,
+    this.addFunc,
+    this.removeFunc,
   });
 
   final Restaurant restaurant;
   final int i;
+  final bool isSaved;
+  final VoidCallback? addFunc;
+  final VoidCallback? removeFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +38,11 @@ class ItemList extends StatelessWidget {
         child: Row(
           children: [
             Hero(
-              tag: restaurant.pictureId ?? '-',
+              tag: restaurant.pictureId?.largeImageResolution ?? '-',
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  restaurant.pictureId?.mediumImageResolution ?? '',
+                  restaurant.pictureId?.largeImageResolution ?? '',
                   height: 90,
                   width: 120,
                   fit: BoxFit.cover,
@@ -93,6 +99,20 @@ class ItemList extends StatelessWidget {
                 ],
               ),
             ),
+            if (isSaved) ...[
+              IconButton(
+                onPressed: removeFunc,
+                icon: const Icon(
+                  Icons.favorite_outlined,
+                  color: Colors.red,
+                ),
+              ),
+            ] else ...[
+              IconButton(
+                onPressed: addFunc,
+                icon: const Icon(Icons.favorite_outline),
+              ),
+            ],
           ],
         ),
       ),

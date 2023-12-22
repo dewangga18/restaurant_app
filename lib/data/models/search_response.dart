@@ -1,4 +1,4 @@
-import 'restaurant_response.dart';
+import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
 
 class SearchResponse {
   bool? error;

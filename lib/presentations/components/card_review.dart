@@ -40,20 +40,23 @@ class CardReview extends StatelessWidget {
                 ),
               ),
               10.horizontalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    review.name ?? '-',
-                    style: myTextTheme.bodyLarge,
-                  ),
-                  Text(
-                    review.date ?? '-',
-                    style: myTextTheme.bodySmall?.copyWith(
-                      color: Colors.grey.shade400,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      review.name ?? '-',
+                      style: myTextTheme.bodyLarge,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                    Text(
+                      review.date ?? '-',
+                      style: myTextTheme.bodySmall?.copyWith(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

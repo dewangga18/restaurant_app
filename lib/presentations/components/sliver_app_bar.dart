@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/models/restaurant_response.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/providers/favorite_provider.dart';
 import 'package:restaurant_app/data/providers/restaurant_provider.dart';
 import 'package:restaurant_app/utils/extensions/get_image.dart';
 import 'package:restaurant_app/utils/extensions/set_space.dart';
+import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
 
 class DetailSliverAppBar extends StatelessWidget {
   const DetailSliverAppBar({
@@ -16,6 +18,9 @@ class DetailSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favProvider = context.watch<FavoriteProvider>();
+    bool isSaved = favProvider.isSavedItem(data.id);
+
     return SliverAppBar(
       pinned: true,
       expandedHeight: 400,
@@ -27,9 +32,9 @@ class DetailSliverAppBar extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Hero(
-                tag: data.pictureId?.largeImageResolution ?? '-',
+                tag: data.pictureId!.largeImageResolution,
                 child: Image.network(
-                  data.pictureId?.largeImageResolution ?? '-',
+                  data.pictureId!.largeImageResolution,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
@@ -131,7 +136,20 @@ class DetailSliverAppBar extends StatelessWidget {
                       Icons.star,
                       color: Colors.white,
                     ),
-                    10.horizontalSpace,
+                    if (isSaved) ...[
+                      IconButton(
+                        onPressed: () => favProvider.removeData(data),
+                        icon: const Icon(
+                          Icons.favorite_outlined,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ] else ...[
+                      IconButton(
+                        onPressed: () => favProvider.addData(data),
+                        icon: const Icon(Icons.favorite_outline),
+                      ),
+                    ],
                   ],
                 ),
               ),

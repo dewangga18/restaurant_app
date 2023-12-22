@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/models/restaurant_detail_response.dart';
-import 'package:restaurant_app/data/models/restaurant_response.dart';
 import 'package:restaurant_app/data/providers/restaurant_provider.dart';
 import 'package:restaurant_app/presentations/components/item_category.dart';
 import 'package:restaurant_app/presentations/components/menu_component.dart';
@@ -12,6 +11,7 @@ import 'package:restaurant_app/presentations/widgets/loading_detail.dart';
 import 'package:restaurant_app/presentations/components/sliver_app_bar.dart';
 import 'package:restaurant_app/presentations/widgets/message_widget.dart';
 import 'package:restaurant_app/utils/extensions/set_space.dart';
+import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({
