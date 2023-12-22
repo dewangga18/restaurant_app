@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
-import 'package:restaurant_app/utils/hive/services/restaurant_services.dart';
+import 'package:restaurant_app/utils/hive/hive-services/hive_restaurant_services.dart';
 
 class FavoriteProvider extends ChangeNotifier {
   FavoriteProvider() {

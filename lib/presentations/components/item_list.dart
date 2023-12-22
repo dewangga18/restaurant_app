@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/presentations/screens/detail_page.dart';
 import 'package:restaurant_app/utils/extensions/get_image.dart';
 import 'package:restaurant_app/utils/extensions/set_space.dart';
@@ -24,10 +25,9 @@ class ItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
+      onTap: () => Navigation.intentWithData(
         DetailPage.route,
-        arguments: restaurant,
+        restaurant,
       ),
       child: Container(
         decoration: BoxDecoration(

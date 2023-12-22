@@ -40,6 +40,10 @@ dependencies:
   provider: 
   shimmer: 
   hive_flutter: ^1.1.0
+  intl: ^0.17.0
+  android_alarm_manager_plus: ^2.0.2
+  flutter_local_notifications: ^11.0.0
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:

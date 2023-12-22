@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/providers/favorite_provider.dart';
 import 'package:restaurant_app/data/providers/list_provider.dart';
@@ -25,7 +26,6 @@ class HomePage extends StatelessWidget {
         ChangeNotifierProvider<SearchProvider>(
           create: (_) => SearchProvider(apiService: ApiService()),
         ),
-        
       ],
       builder: (ctx, _) => _screen(ctx),
     );
@@ -84,8 +84,7 @@ class HomePage extends StatelessWidget {
                   icon: const Icon(Icons.search),
                 ),
                 IconButton(
-                  onPressed: () => Navigator.pushNamed(
-                    context,
+                  onPressed: () => Navigation.pushNamed(
                     FavoritePage.route,
                   ),
                   icon: const Icon(Icons.favorite_outlined),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/providers/favorite_provider.dart';
 import 'package:restaurant_app/data/providers/restaurant_provider.dart';
 import 'package:restaurant_app/utils/extensions/get_image.dart';
@@ -60,7 +61,7 @@ class DetailSliverAppBar extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 3),
                     child: IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => Navigation.back(),
                       icon: const Icon(
                         Icons.arrow_back_ios,
                         color: Colors.white,
@@ -78,7 +79,7 @@ class DetailSliverAppBar extends StatelessWidget {
           children: [
             if (provider.isCollapsed) ...[
               IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigation.back(),
                 icon: const Icon(
                   Icons.arrow_back_ios,
                   color: Colors.white,
