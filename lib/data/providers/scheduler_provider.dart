@@ -5,14 +5,20 @@ import 'package:restaurant_app/utils/helpers/date_time_helper.dart';
 import 'package:restaurant_app/utils/hive/hive-services/hive_schedule_service.dart';
 
 class SchedulingProvider extends ChangeNotifier {
-  bool _isScheduled = HiveScheduleService.isSchedule();
- 
+  SchedulingProvider() {
+    _isScheduled = HiveScheduleService.isSchedule();
+    notifyListeners();
+  }
+
+  bool _isScheduled = false;
+
   bool get isScheduled => _isScheduled;
- 
+
   Future<bool> setRecomendation(bool value) async {
+    HiveScheduleService.doOrRemoveSchedule(value);
     _isScheduled = value;
+    notifyListeners();
     if (_isScheduled) {
-      notifyListeners();
       return await AndroidAlarmManager.periodic(
         const Duration(hours: 24),
         1,

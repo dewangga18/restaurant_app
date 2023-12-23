@@ -1,61 +1,52 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/providers/favorite_provider.dart';
+import 'package:restaurant_app/data/models/restaurant_response.dart';
 import 'package:restaurant_app/data/providers/list_provider.dart';
-import 'package:restaurant_app/data/providers/scheduler_provider.dart';
+import 'package:restaurant_app/utils/hive/adapter/restaurant.dart';
 
 void main() {
-  test('Initial data schedule is false', () async {
-    WidgetsFlutterBinding.ensureInitialized();
-    bool result;
-    try {
-      await Hive.initFlutter();
-      await Hive.openBox('schedule');
-      var provider = SchedulingProvider();
-      result = provider.isScheduled;
-    } catch (e) {
-      result = false;
-    }
-    expect(result, false);
-  });
-
-  test('Initial data favourite is empty', () async {
-    WidgetsFlutterBinding.ensureInitialized();
-    List result;
-    try {
-      await Hive.initFlutter();
-      await Hive.openBox('restaurant-hive');
-      var provider = FavoriteProvider();
-      result = provider.savedList;
-    } catch (e) {
-      result = [];
-    }
-    expect(result.length, 0);
-  });
-
-  test('Initial data favourite is empty', () async {
-    WidgetsFlutterBinding.ensureInitialized();
-    List result;
-    try {
-      await Hive.initFlutter();
-      await Hive.openBox('restaurant-hive');
-      var provider = FavoriteProvider();
-      result = provider.savedList;
-    } catch (e) {
-      result = [];
-    }
-    expect(result.length, 0);
-  });
-
   group('list data provider', () {
-    test('Check initial data', () async {
-      var provider = ListDataProvider(
-        apiService: ApiService(),
-        isMock: true,
-      );
+    late ListDataProvider provider;
+
+    setUp(() {
+      provider = ListDataProvider();
+    });
+
+    test('Check initial list restaurant is null', () async {
       expect(provider.state, ResultListState.empty);
+    });
+
+    test('get list restaurant is success', () async {
+      provider = ListDataProvider(loader: mockSuccessLoader());
+      await provider.getRestaurants();
+      expect(provider.state, ResultListState.success);
     });
   });
 }
+
+final mockedData = [
+  Restaurant(
+    city: 'Surabaya',
+    description: 'Restoran dari Surabaya',
+    id: '1',
+    pictureId: '01',
+    name: 'Restoran Surabaya',
+    rating: 4.5,
+  ),
+  Restaurant(
+    city: 'Malang',
+    description: 'Restoran dari Malang',
+    id: '2',
+    pictureId: '02',
+    name: 'Restoran Malang',
+    rating: 4.5,
+  ),
+];
+
+Future<RestaurantResponse> mockSuccessLoader() async {return Future.value(
+      RestaurantResponse(
+        count: 2,
+        error: false,
+        message: 'Success',
+        restaurants: mockedData,
+      ),
+    );}
